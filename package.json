@@ -11,13 +11,14 @@
     "dev:full": "node server.js"
   },
   "dependencies": {
-    "vue": "^3.4.0",
-    "vue-router": "^4.3.0",
     "pinia": "^2.1.0",
-    "vant": "^4.9.0"
+    "vant": "^4.9.0",
+    "vue": "^3.4.0",
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",
+    "cos-nodejs-sdk-v5": "^2.15.4",
     "vite": "^5.4.0"
   }
 }
