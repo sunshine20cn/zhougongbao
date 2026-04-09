@@ -1,0 +1,27 @@
+{
+  "envId": "sunshine20cn-ai",
+  "region": "ap-shanghai",
+  "framework": {
+    "name": "zhougongbao",
+    "plugins": {
+      "client": {
+        "inputs": {
+          "src": "dist",
+          "ssr": false,
+          "framework": "static"
+        },
+        "provider": "static"
+      }
+    }
+  },
+  "functions": [
+    {
+      "name": "interpret",
+      "config": {
+        "timeout": 10,
+        "envVariables": {},
+        "memorySize": 256
+      }
+    }
+  ]
+}
