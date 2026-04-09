@@ -13,10 +13,10 @@
       <HistoryItem
         v-for="item in store.history"
         :key="item.id"
+        :id="item.id"
         :dreamText="item.dream"
         :createdAt="item.createdAt"
-        @click="$router.push(`/history/${item.id}`)"
-        @delete="handleDelete(item.id)"
+        @deleted="handleDelete"
       />
     </div>
 
