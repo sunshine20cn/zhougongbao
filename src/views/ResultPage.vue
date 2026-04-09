@@ -28,12 +28,14 @@
       <!-- 操作按钮 -->
       <div class="action-buttons">
         <button 
+          v-if="speechSupported"
           class="btn-speak"
           :class="{ speaking: isSpeaking }"
           @click="toggleSpeak"
         >
           {{ isSpeaking ? '🔇 停止朗读' : '🔊 朗读结果' }}
         </button>
+        <p v-else class="no-speech-hint">💡 在手机浏览器中打开可使用朗读功能</p>
         
         <button class="btn-secondary" @click="handleReDream">
           💭 重新解梦
@@ -72,8 +74,12 @@ const result = ref('')
 const isLoading = ref(true)
 const error = ref('')
 const isSpeaking = ref(false)
+const speechSupported = ref(true)
 
 onMounted(async () => {
+  // 检查语音播报支持
+  speechSupported.value = isSpeechSynthesisSupported()
+  
   const text = route.query.dream || ''
   if (!text) {
     router.replace('/')
@@ -247,6 +253,16 @@ onUnmounted(() => {
   text-align: center;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.no-speech-hint {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: var(--space-md);
+  background: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--color-border);
 }
 
 .error-state {
