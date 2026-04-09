@@ -9,8 +9,22 @@ export default defineConfig({
       '@': resolve(__dirname, 'src')
     }
   },
+  base: './',
   server: {
     port: 3000,
-    open: true
+    open: false
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vant: ['vant']
+        }
+      }
+    }
   }
 })
