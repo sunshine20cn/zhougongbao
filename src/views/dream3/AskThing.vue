@@ -32,13 +32,13 @@
       </button>
     </div>
 
-    <!-- 完成按钮 -->
+    <!-- 完成按钮：去补充描述 -->
     <button 
       class="next-btn" 
       :disabled="!selected"
-      @click="goResult"
+      @click="goToDescribe"
     >
-      开始解梦
+      补充梦境细节
     </button>
   </div>
 </template>
@@ -46,13 +46,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useDreamStore } from '@/stores/dream.js'
 import { speak, isSpeechSynthesisSupported } from '@/utils/speech.js'
-import { showToast } from 'vant'
 
 const router = useRouter()
 const route = useRoute()
-const store = useDreamStore()
 const selected = ref(null)
 
 const thingOptions = [
@@ -74,70 +71,18 @@ function selectOption(value) {
   selected.value = value
 }
 
-function goResult() {
+function goToDescribe() {
   if (!selected.value) return
   
-  // 构建梦境描述
-  const feeling = route.query.feeling || ''
-  const person = route.query.person || ''
-  const thing = selected.value
-  
-  // 生成梦境描述文本
-  const dreamText = generateDreamDescription(feeling, person, thing)
-  
-  // 跳转到结果页
+  // 传递3个问题的答案
   router.push({
-    path: '/dream/result',
-    query: { dream: dreamText }
+    path: '/dream/describe',
+    query: {
+      feeling: route.query.feeling,
+      person: route.query.person,
+      thing: selected.value
+    }
   })
-}
-
-function generateDreamDescription(feeling, person, thing) {
-  const feelingMap = {
-    'fear': '害怕',
-    'angry': '生气',
-    'sad': '难过',
-    'worry': '担心',
-    'happy': '开心',
-    'strange': '奇怪'
-  }
-  
-  const personMap = {
-    'family': '家里人',
-    'acquaintance': '熟人',
-    'stranger': '陌生人',
-    'animal': '动物',
-    'ghost': '鬼',
-    'myself': '就自己'
-  }
-  
-  const thingMap = {
-    'water': '水（河/雨/淹了）',
-    'teeth': '牙掉了',
-    'fall': '掉下去',
-    'chased': '被人追',
-    'exam': '考试/迟到',
-    'car': '车出事',
-    'ghost': '见鬼/黑影',
-    'lover': '老相好',
-    'dead': '死人了',
-    'snake': '蛇/虫',
-    'fly': '飞起来',
-    'fire': '着火'
-  }
-  
-  let desc = '我梦里'
-  if (feelingMap[feeling]) {
-    desc += `醒来心里${feelingMap[feeling]}，`
-  }
-  if (personMap[person]) {
-    desc += `梦里见到${personMap[person]}，`
-  }
-  if (thingMap[thing]) {
-    desc += `最奇怪的${thingMap[thing]}。`
-  }
-  
-  return desc
 }
 
 function speakQuestion() {
@@ -232,7 +177,6 @@ function speakQuestion() {
   margin-bottom: var(--space-lg);
 }
 
-/* 12个选项，4列3行 */
 .options-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
