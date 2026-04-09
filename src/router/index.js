@@ -29,6 +29,11 @@ const routes = [
     component: () => import('@/views/dream3/AskThing.vue')
   },
   {
+    path: '/dream/describe',
+    name: 'DreamDescribe',
+    component: () => import('@/views/dream3/DescribePage.vue')
+  },
+  {
     path: '/dream/result',
     name: 'DreamResult',
     component: () => import('@/views/dream3/ResultPage.vue')
